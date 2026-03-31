@@ -1,0 +1,26 @@
+capital = 214
+
+oob = "ARK_1936"
+
+set_politics = {
+    ruling_party = communism
+    last_election = "1936.1.1"
+    election_frequency = 48
+    elections_allowed = yes
+}
+
+set_popularities = { ideology = democratic popularity = 25 }
+set_popularities = { ideology = communism popularity = 25 }
+set_popularities = { ideology = fascism popularity = 25 }
+set_popularities = { ideology = neutrality popularity = 25 }
+
+technologies = {
+    infantry_weapons = 1
+    infantry_weapons1 = 1
+    tech_trucks = 1
+    gw_artillery = 1
+    tech_recon = 1
+    tech_support = 1
+    tech_engineers = 1
+    basic_train = 1
+}
