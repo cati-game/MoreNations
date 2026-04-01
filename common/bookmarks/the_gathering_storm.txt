@@ -19,18 +19,16 @@ bookmarks = {
 				some_focus
 			}
 		}
-		"USA"={
-			history = "USA_GATHERING_STORM_DESC"
-			ideology = democratic
+		"BAT" = {
+			history = "BAT_GATHERING_STORM_DESC"
+			ideology = fascism
+
 			ideas = {
-				home_of_the_free
-				great_depression
-				undisturbed_isolation
+				some_idea
 			}
+
 			focuses = {
-				USA_war_plan_black
-				USA_limited_intervention
-				USA_reestablish_the_gold_standard
+				some_focus
 			}
 		}
 		"ENG"={
