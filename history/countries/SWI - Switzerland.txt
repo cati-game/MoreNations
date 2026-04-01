@@ -1,6 +1,6 @@
 capital = 3
 
-oob = "SWI_1936"
+oob = "1SW_1936"
 
 # Staring tech
 set_technology = {
@@ -15,7 +15,7 @@ set_technology = {
 }
 
 set_politics = {
-	ruling_party = neutrality
+	ruling_party = democratic
 	last_election = "1936.1.1"
 	election_frequency = 48
 	elections_allowed = yes
