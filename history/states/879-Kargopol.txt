@@ -16,7 +16,6 @@ state = {
 			
 		}
 		add_core_of = SOV
-		add_core_of = KAR
 		add_core_of = KRL
 		add_core_of = ARK
 		1939.1.1 = {

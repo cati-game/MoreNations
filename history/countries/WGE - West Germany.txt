@@ -24,3 +24,5 @@ set_popularities = {
 	fascism = 25
 	neutrality = 25
 }
+
+recruit_character = WGE_john_army

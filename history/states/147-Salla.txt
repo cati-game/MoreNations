@@ -14,7 +14,7 @@ state = {
 
 		add_core_of = LAP
 		add_core_of = FIN
-		add_core_of = KAR
+		 
 		add_core_of = SMI
 		
 		victory_points = { #Salla

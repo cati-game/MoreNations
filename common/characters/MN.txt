@@ -1,0 +1,23 @@
+characters = {
+    WGE_john_army = {
+        instance = {
+            name = WGE_john_army
+
+            advisor = {
+				slot = army_chief
+				idea_token = WGE_john_army
+				allowed = {
+					tag = WGE
+				}
+				traits = {
+					army_chief_defensive_1
+				}
+				cost = 100
+				ai_will_do = {
+					factor = 1.000
+				}
+			}
+
+        }
+    }
+}

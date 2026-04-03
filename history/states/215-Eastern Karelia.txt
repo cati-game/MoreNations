@@ -14,7 +14,7 @@ state={
 		add_core_of = SOV
 		add_core_of = LAP
 		add_core_of = KRL
-		add_core_of = KAR
+		 
 	}
 
 	provinces={

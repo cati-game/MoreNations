@@ -11,7 +11,7 @@ state={
 		add_core_of = OUL
 		add_core_of = HEL
 		add_core_of = LEN
-		add_core_of = KAR
+		 
 		add_core_of = KRL
 		buildings = {
 			infrastructure = 3 #was: 5

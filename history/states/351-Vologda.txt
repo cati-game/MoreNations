@@ -13,7 +13,7 @@ state={
 		}
 		add_core_of = SOV
 		add_core_of = KRL
-		add_core_of = KAR
+		 
 		victory_points = {
 			9131 3
 		}
