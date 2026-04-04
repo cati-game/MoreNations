@@ -10,7 +10,7 @@ country_event = {
 
     option = { # Yes
         name = DOD_moscow.1.a
-        ai_chance = { factor = 70 }
+        ai_chance = { factor = 50 }
 
         MOS = {
             country_event = { id = DOD_moscow.2 hours = 6 }
@@ -19,7 +19,7 @@ country_event = {
 
     option = { # No
         name = DOD_moscow.1.b
-        ai_chance = { factor = 30 }
+        ai_chance = { factor = 50 }
 
         MOS = {
             country_event = { id = DOD_moscow.3 hours = 6 }
@@ -103,13 +103,6 @@ country_event = {
             target = MOS
             modifier = HUN_trade_deal_with_germany
         }
-
-        if = {
-            limit = {
-                MOS = { has_faction = yes }
-            }
-            join_faction = MOS
-        }
     }
 
     option = { # Refuse
@@ -129,292 +122,517 @@ country_event = {
 			}
         }
     }
-	country_event = {
-		id = DOD_moscow.5
-		title = DOD_moscow.5.t
-		desc = DOD_moscow.5.desc
-		picture = GFX_report_event_election_vote
+}
+country_event = {
+	id = DOD_moscow.5
+	title = DOD_moscow.5.t
+	desc = DOD_moscow.5.desc
+	picture = GFX_report_event_election_vote
 
-		is_triggered_only = yes
+	is_triggered_only = yes
 
-		option = { # YES
-			name = DOD_moscow.5.a
-			ai_chance = { factor = 50 }
+	option = { # YES
+		name = DOD_moscow.5.a
+		ai_chance = { factor = 50 }
 
-			set_government = neutrality
+		set_politics = { ruling_party = neutrality }
 
-			add_popularity = {
-				ideology = neutrality
-				popularity = 0.20
-			}
-
-			MOS = {
-				add_opinion_modifier = {
-					target = ROOT
-					modifier = HUN_trade_deal_with_germany
-				}
-			}
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.20
 		}
 
-		option = { # NO
-			name = DOD_moscow.5.b
-			ai_chance = { factor = 50 }
-
-			MOS = {
-				country_event = { id = DOD_moscow.6 days = 1 }
+		MOS = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = HUN_trade_deal_with_germany
 			}
 		}
 	}
-	country_event = {
-		id = DOD_moscow.6
-		title = DOD_moscow.6.t
-		desc = DOD_moscow.6.desc
-		picture = GFX_report_event_generic_war
 
-		is_triggered_only = yes
+	option = { # NO
+		name = DOD_moscow.5.b
+		ai_chance = { factor = 50 }
 
-		option = { # WAR
-			name = DOD_moscow.6.a
-			ai_chance = {
+		MOS = {
+			country_event = { id = DOD_moscow.6 days = 1 }
+		}
+	}
+}
+country_event = {
+	id = DOD_moscow.6
+	title = DOD_moscow.6.t
+	desc = DOD_moscow.6.desc
+	picture = GFX_report_event_generic_war
+
+	is_triggered_only = yes
+
+	option = { # WAR
+		name = DOD_moscow.6.a
+		ai_chance = {
+			factor = 50
+
+			modifier = {
+				factor = 0.75
+				neutrality < 0.4
+			}
+
+			modifier = {
+				factor = 1.5
+				neutrality > 0.5
+			}
+		}
+
+		create_wargoal = {
+			type = puppet_wargoal_focus
+			target = LEN
+		}
+	}
+
+	option = { # ACCEPT
+		name = DOD_moscow.6.b
+		ai_chance = {
+			factor = 50
+
+			modifier = {
+				factor = 1.5
+				neutrality < 0.4
+			}
+
+			modifier = {
+				factor = 0.75
+				neutrality > 0.5
+			}
+		}
+
+		add_stability = -0.05
+		add_war_support = -0.05
+
+		LEN = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = HUN_stubborn_fools
+			}
+		}
+	}
+}
+country_event = {
+	id = DOD_moscow.7
+	title = DOD_moscow.7.t
+	desc = DOD_moscow.7.desc
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes
+
+	option = { # JOIN
+		name = DOD_moscow.7.a
+
+		ai_chance = {
+			factor = 10
+
+			modifier = {
+				factor = 95   # ≈ 95%
+				neutrality > 0.6
+			}
+		}
+
+		MOS = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = HUN_trade_deal_with_germany
+			}
+		}
+
+		FROM = {
+			faction_leader = {
+				add_to_faction = ROOT
+			}
+		}
+	}
+
+	option = { # REFUSE
+		name = DOD_moscow.7.b
+
+		MOS = {
+			country_event = { id = DOD_moscow.8 days = 1 }
+		}
+	}
+}
+country_event = {
+	id = DOD_moscow.8
+	title = DOD_moscow.8.t
+	desc = DOD_moscow.8.desc
+	picture = GFX_report_event_generic_war
+
+	is_triggered_only = yes
+
+	option = { # WAR
+		name = DOD_moscow.8.a
+		ai_chance = { factor = 80 }
+
+		create_wargoal = {
+			type = puppet_wargoal_focus
+			target = TVE
+		}
+		add_war_support = 0.10
+		add_stability = 0.05
+	}
+
+	option = { # BACK DOWN
+		name = DOD_moscow.8.b
+		ai_chance = { factor = 20 }
+
+		add_stability = 0.05
+	}
+}
+country_event = {
+	id = DOD_moscow.9
+	title = DOD_moscow.9.t
+	desc = DOD_moscow.9.desc
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes
+
+	option = { # JOIN
+		name = DOD_moscow.9.a
+
+		ai_chance = {
+			factor = 50
+
+			modifier = {
+				factor = 95   # ≈ 95%
+				neutrality > 0.5
+			}
+		}
+
+		MOS = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = HUN_trade_deal_with_germany
+			}
+		}
+
+		FROM = {
+			faction_leader = {
+				add_to_faction = ROOT
+			}
+		}
+	}
+
+	option = { # REFUSE
+		name = DOD_moscow.9.b
+
+		ai_chance = 5
+
+			modifier = {
 				factor = 50
-
-				modifier = {
-					factor = 0.75
-					neutrality < 0.4
-				}
-
-				modifier = {
-					factor = 1.5
-					neutrality > 0.5
-				}
+				neutrality < 0.5
 			}
 
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = LEN
+		MOS = {
+			country_event = { id = DOD_moscow.10 days = 1 }
+		}
+	}
+}
+country_event = {
+	id = DOD_moscow.10
+	title = DOD_moscow.10.t
+	desc = DOD_moscow.10.desc
+	picture = GFX_report_event_generic_war
+
+	is_triggered_only = yes
+
+	option = { # WAR
+		name = DOD_moscow.10.a
+		ai_chance = { factor = 80 }
+
+		create_wargoal = {
+			type = puppet_wargoal_focus
+			target = LEN
+		}
+		add_war_support = 0.10
+		add_stability = 0.05
+	}
+
+	option = { # BACK DOWN
+		name = DOD_moscow.10.b
+		ai_chance = { factor = 20 }
+
+		add_stability = 0.05
+	}
+}
+country_event = {
+	id = DOD_moscow.11
+	title = DOD_moscow.11.t
+	desc = DOD_moscow.11.desc
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes
+
+	option = { # JOIN
+		name = DOD_moscow.11.a
+
+		ai_chance = {
+			factor = 10
+
+			modifier = {
+				factor = 95   # ≈ 95%
+				neutrality > 0.6
 			}
 		}
 
-		option = { # ACCEPT
-			name = DOD_moscow.6.b
-			ai_chance = {
-				factor = 50
-
-				modifier = {
-					factor = 1.5
-					neutrality < 0.4
-				}
-
-				modifier = {
-					factor = 0.75
-					neutrality > 0.5
-				}
+		MOS = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = HUN_trade_deal_with_germany
 			}
+		}
 
-			add_stability = -0.05
-			add_war_support = -0.05
-
-			LEN = {
-				add_opinion_modifier = {
-					target = ROOT
-					modifier = HUN_stubborn_fools
-				}
+		FROM = {
+			faction_leader = {
+				add_to_faction = ROOT
 			}
 		}
 	}
-	country_event = {
-		id = DOD_moscow.7
-		title = DOD_moscow.7.t
-		desc = DOD_moscow.7.desc
-		picture = GFX_report_event_generic_handshake
 
-		is_triggered_only = yes
+	option = { # REFUSE
+		name = DOD_moscow.11.b
 
-		option = { # JOIN
-			name = DOD_moscow.7.a
+		MOS = {
+			country_event = { id = DOD_moscow.12 days = 1 }
+		}
+	}
+}
+country_event = {
+	id = DOD_moscow.12
+	title = DOD_moscow.12.t
+	desc = DOD_moscow.12.desc
+	picture = GFX_report_event_generic_war
 
-			ai_chance = {
-				factor = 10
+	is_triggered_only = yes
 
-				modifier = {
-					factor = 95   # ≈ 95%
-					neutrality > 0.6
-				}
+	option = { # WAR
+		name = DOD_moscow.12.a
+		ai_chance = { factor = 80 }
+
+		create_wargoal = {
+			type = puppet_wargoal_focus
+			target = KRL
+		}
+		add_war_support = 0.10
+		add_stability = 0.05
+	}
+
+	option = { # BACK DOWN
+		name = DOD_moscow.12.b
+		ai_chance = { factor = 20 }
+
+		add_stability = 0.05
+	}
+}
+country_event = {
+	id = DOD_moscow.13
+	title = DOD_moscow.13.t
+	desc = DOD_moscow.13.desc
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes
+
+	option = { # JOIN
+		name = DOD_moscow.13.a
+
+		ai_chance = {
+			factor = 10
+
+			modifier = {
+				factor = 95   # ≈ 95%
+				neutrality > 0.6
 			}
-
-			MOS = {
-				add_opinion_modifier = {
-					target = ROOT
-					modifier = HUN_trade_deal_with_germany
-				}
-			}
-
-			join_faction = MOS
 		}
 
-		option = { # REFUSE
-			name = DOD_moscow.7.b
+		MOS = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = HUN_trade_deal_with_germany
+			}
+		}
 
-			MOS = {
-				country_event = { id = DOD_moscow.8 days = 1 }
+		FROM = {
+			faction_leader = {
+				add_to_faction = ROOT
 			}
 		}
 	}
-	country_event = {
-		id = DOD_moscow.8
-		title = DOD_moscow.8.t
-		desc = DOD_moscow.8.desc
-		picture = GFX_report_event_generic_war
 
-		is_triggered_only = yes
+	option = { # REFUSE
+		name = DOD_moscow.13.b
 
-		option = { # WAR
-			name = DOD_moscow.8.a
-			ai_chance = { factor = 80 }
-
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = TVE
-			}
-			add_war_support = 0.10
-			add_stability = 0.05
-		}
-
-		option = { # BACK DOWN
-			name = DOD_moscow.8.b
-			ai_chance = { factor = 20 }
-
-			add_stability = 0.05
+		MOS = {
+			country_event = { id = DOD_moscow.14 days = 1 }
 		}
 	}
-	country_event = {
-		id = DOD_moscow.9
-		title = DOD_moscow.9.t
-		desc = DOD_moscow.9.desc
-		picture = GFX_report_event_generic_handshake
+}
+country_event = {
+	id = DOD_moscow.14
+	title = DOD_moscow.14.t
+	desc = DOD_moscow.14.desc
+	picture = GFX_report_event_generic_war
 
-		is_triggered_only = yes
+	is_triggered_only = yes
 
-		option = { # JOIN
-			name = DOD_moscow.9.a
+	option = { # WAR
+		name = DOD_moscow.14.a
+		ai_chance = { factor = 80 }
 
-			ai_chance = {
-				factor = 10
-
-				modifier = {
-					factor = 95   # ≈ 95%
-					neutrality > 0.6
-				}
-			}
-
-			MOS = {
-				add_opinion_modifier = {
-					target = ROOT
-					modifier = HUN_trade_deal_with_germany
-				}
-			}
-
-			join_faction = MOS
+		create_wargoal = {
+			type = puppet_wargoal_focus
+			target = ORE
 		}
-
-		option = { # REFUSE
-			name = DOD_moscow.9.b
-
-			MOS = {
-				country_event = { id = DOD_moscow.10 days = 1 }
-			}
-		}
+		add_war_support = 0.10
+		add_stability = 0.05
 	}
-	country_event = {
-		id = DOD_moscow.10
-		title = DOD_moscow.10.t
-		desc = DOD_moscow.10.desc
-		picture = GFX_report_event_generic_war
 
-		is_triggered_only = yes
+	option = { # BACK DOWN
+		name = DOD_moscow.14.b
+		ai_chance = { factor = 20 }
 
-		option = { # WAR
-			name = DOD_moscow.10.a
-			ai_chance = { factor = 80 }
-
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = TVE
-			}
-			add_war_support = 0.10
-			add_stability = 0.05
-		}
-
-		option = { # BACK DOWN
-			name = DOD_moscow.10.b
-			ai_chance = { factor = 20 }
-
-			add_stability = 0.05
-		}
+		add_stability = 0.05
 	}
-	country_event = {
-		id = DOD_moscow.11
-		title = DOD_moscow.11.t
-		desc = DOD_moscow.11.desc
-		picture = GFX_report_event_generic_handshake
+}
+# LEN invitation
+country_event = {
+    id = DOD_moscow.15
+    title = DOD_moscow.15.t
+    desc = DOD_moscow.15.desc
+    picture = GFX_report_event_generic_handshake
 
-		is_triggered_only = yes
+    is_triggered_only = yes
 
-		option = { # JOIN
-			name = DOD_moscow.11.a
+    option = { # JOIN
+        name = DOD_moscow.15.a
+        ai_chance = {
+            factor = 10
+            modifier = {
+                factor = 90
+                communism > 0.6
+            }
+        }
 
-			ai_chance = {
-				factor = 10
+        MOS = {
+            add_opinion_modifier = {
+                target = ROOT
+                modifier = MOS_faction_invite
+            }
+        }
 
-				modifier = {
-					factor = 95   # ≈ 95%
-					neutrality > 0.6
-				}
-			}
-
-			MOS = {
-				add_opinion_modifier = {
-					target = ROOT
-					modifier = HUN_trade_deal_with_germany
-				}
-			}
-
-			join_faction = MOS
-		}
-
-		option = { # REFUSE
-			name = DOD_moscow.11.b
-
-			MOS = {
-				country_event = { id = DOD_moscow.12 days = 1 }
+        FROM = {
+			faction_leader = {
+				add_to_faction = ROOT
 			}
 		}
-	}
-	country_event = {
-		id = DOD_moscow.12
-		title = DOD_moscow.12.t
-		desc = DOD_moscow.12.desc
-		picture = GFX_report_event_generic_war
+    }
 
-		is_triggered_only = yes
+    option = { # REFUSE
+        name = DOD_moscow.15.b
+        MOS = {
+            country_event = { id = DOD_moscow.16 days = 1 }
+        }
+    }
+}
 
-		option = { # WAR
-			name = DOD_moscow.12.a
-			ai_chance = { factor = 80 }
+country_event = {
+    id = DOD_moscow.16
+    title = DOD_moscow.16.t
+    desc = DOD_moscow.16.desc
+    picture = GFX_report_event_generic_war
 
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = TVE
+    is_triggered_only = yes
+
+    option = { # WAR
+        name = DOD_moscow.16.a
+        ai_chance = { factor = 70 }
+
+        create_wargoal = {
+            type = puppet_wargoal_focus
+            target = LEN
+        }
+        add_war_support = 0.10
+        add_stability = 0.05
+    }
+
+    option = { # BACK DOWN
+        name = DOD_moscow.16.b
+        ai_chance = { factor = 30 }
+
+        add_stability = 0.05
+    }
+}
+
+# BLR invitation
+country_event = {
+    id = DOD_moscow.17
+    title = DOD_moscow.17.t
+    desc = DOD_moscow.17.desc
+    picture = GFX_report_event_generic_handshake
+
+    is_triggered_only = yes
+
+    option = { # JOIN
+        name = DOD_moscow.17.a
+        ai_chance = {
+            factor = 10
+            modifier = {
+                factor = 90
+                communism > 0.6
+            }
+        }
+
+        MOS = {
+            add_opinion_modifier = {
+                target = ROOT
+                modifier = MOS_faction_invite
+            }
+        }
+
+        FROM = {
+			faction_leader = {
+				add_to_faction = ROOT
 			}
-			add_war_support = 0.10
-			add_stability = 0.05
 		}
+    }
 
-		option = { # BACK DOWN
-			name = DOD_moscow.12.b
-			ai_chance = { factor = 20 }
+    option = { # REFUSE
+        name = DOD_moscow.17.b
+        MOS = {
+            country_event = { id = DOD_moscow.18 days = 1 }
+        }
+    }
+}
 
-			add_stability = 0.05
-		}
-	}
+country_event = {
+    id = DOD_moscow.18
+    title = DOD_moscow.18.t
+    desc = DOD_moscow.18.desc
+    picture = GFX_report_event_generic_war
+
+    is_triggered_only = yes
+
+    option = { # WAR
+        name = DOD_moscow.18.a
+        ai_chance = { factor = 70 }
+
+        create_wargoal = {
+            type = puppet_wargoal_focus
+            target = BLR
+        }
+        add_war_support = 0.10
+        add_stability = 0.05
+    }
+
+    option = { # BACK DOWN
+        name = DOD_moscow.18.b
+        ai_chance = { factor = 30 }
+
+        add_stability = 0.05
+    }
 }

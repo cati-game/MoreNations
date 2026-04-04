@@ -1,69 +1,94 @@
 ﻿l_english:
 
- DOD_moscow.1.t: "Referendum in Tver"
- DOD_moscow.1.desc: "Moscow proposes that Tver join their state peacefully."
+ DOD_moscow.1.t: "Referendum of Lands"
+ DOD_moscow.1.desc: "Moscow proposes that your country join their state peacefully. If not there may be consequences"
  DOD_moscow.1.a: "Yes, join Moscow"
  DOD_moscow.1.b: "No, remain independent"
 
- DOD_moscow.2.t: "Tver Accepts"
- DOD_moscow.2.desc: "Tver has agreed to join Moscow."
+ DOD_moscow.2.t: "They Accept"
+ DOD_moscow.2.desc: "They have agreed to join Moscow."
  DOD_moscow.2.a: "Excellent"
 
- DOD_moscow.3.t: "Tver Refuses"
- DOD_moscow.3.desc: "Tver has refused our proposal. How shall we respond?"
+ DOD_moscow.3.t: "They Refuses"
+ DOD_moscow.3.desc: "They has refused our proposal. How shall we respond?"
  DOD_moscow.3.a: "War it is"
  DOD_moscow.3.b: "We will back down"
 
  DOD_moscow.4.t: "A Royal Gift from the Moscow King"
  DOD_moscow.4.desc: "The King of Moscow has approached us with a royal gift, offering a symbol of friendship and unity between our peoples. This gesture may mark the beginning of closer cooperation and a shared future."
-
  DOD_moscow.4.a: "We will accept the gift"
  DOD_moscow.4.b: "We will politely deny"
 
-DOD_moscow.5.t: "A Vote Forced Upon Us"
-DOD_moscow.5.desc: "Moscow demands that we reform our government into a monarchy aligned with their vision. While some support this shift, others see it as foreign interference in our sovereignty."
+ DOD_moscow.5.t: "A Vote Forced Upon Us"
+ DOD_moscow.5.desc: "Moscow demands that we reform our government into a monarchy aligned with their vision. While some support this shift, others see it as foreign interference in our sovereignty."
+ DOD_moscow.5.a: "Accept the new order"
+ DOD_moscow.5.b: "We refuse Moscow's demands"
 
-DOD_moscow.5.a: "Accept the new order"
-DOD_moscow.5.b: "We refuse Moscow's demands"
+ DOD_moscow.6.t: "Leningrad Refuses"
+ DOD_moscow.6.desc: "Leningrad has rejected our demands for governmental reform. We must now decide whether to enforce our will or accept their defiance."
+ DOD_moscow.6.a: "They will submit"
+ DOD_moscow.6.b: "We will stand down"
 
-DOD_moscow.6.t: "Leningrad Refuses"
-DOD_moscow.6.desc: "Leningrad has rejected our demands for governmental reform. We must now decide whether to enforce our will or accept their defiance."
+ DOD_moscow.7.t: "Moscow Seeks Unity"
+ DOD_moscow.7.desc: "The Kingdom of Moscow invites us to join their growing alliance of monarchies."
+ DOD_moscow.7.a: "Join them"
+ DOD_moscow.7.b: "Refuse"
 
-DOD_moscow.6.a: "They will submit"
-DOD_moscow.6.b: "We will stand down"
+ DOD_moscow.8.t: "Tver Refuses"
+ DOD_moscow.8.desc: "Tver has rejected our offer. Shall we enforce our will?"
+ DOD_moscow.8.a: "The power of the Old Kingdoms will not be undermined"
+ DOD_moscow.8.b: "Peace is almighty"
 
-DOD_moscow.7.t: "Moscow Seeks Unity"
-DOD_moscow.7.desc: "The Kingdom of Moscow invites us to join their growing alliance of monarchies."
+ DOD_moscow.9.t: "Moscow Seeks Unity"
+ DOD_moscow.9.desc: "The Kingdom of Moscow invites us to join their growing alliance of monarchies."
+ DOD_moscow.9.a: "Join them"
+ DOD_moscow.9.b: "Refuse"
 
-DOD_moscow.7.a: "Join them"
-DOD_moscow.7.b: "Refuse"
+ DOD_moscow.10.t: "Leningrad Refuses"
+ DOD_moscow.10.desc: "Leningrad has rejected our offer. Shall we enforce our will?"
+ DOD_moscow.10.a: "The power of the Old Kingdoms will not be undermined"
+ DOD_moscow.10.b: "Peace is almighty"
 
-DOD_moscow.8.t: "Tver Refuses"
-DOD_moscow.8.desc: "Tver has rejected our offer. Shall we enforce our will?"
+ DOD_moscow.11.t: "Moscow Seeks Unity"
+ DOD_moscow.11.desc: "The Kingdom of Moscow invites us to join their growing alliance of monarchies."
+ DOD_moscow.11.a: "Join them"
+ DOD_moscow.11.b: "Refuse"
 
-DOD_moscow.8.a: "The power of the Old Kingdoms will not be undermined"
-DOD_moscow.8.b: "Peace is almighty"
+ DOD_moscow.12.t: "Greater Karelia Refuses"
+ DOD_moscow.12.desc: "Greater Karelia has rejected our offer. Shall we enforce our will?"
+ DOD_moscow.12.a: "The power of the Old Kingdoms will not be undermined"
+ DOD_moscow.12.b: "Peace is almighty"
 
-DOD_moscow.9.t: "Moscow Seeks Unity"
-DOD_moscow.9.desc: "The Kingdom of Moscow invites us to join their growing alliance of monarchies."
+ DOD_moscow.13.t: "Moscow Seeks Unity"
+ DOD_moscow.13.desc: "The Kingdom of Moscow invites us to join their growing alliance of monarchies."
+ DOD_moscow.13.a: "Join them"
+ DOD_moscow.13.b: "Refuse"
 
-DOD_moscow.9.a: "Join them"
-DOD_moscow.9.b: "Refuse"
+ DOD_moscow.14.t: "Orel Refuses"
+ DOD_moscow.14.desc: "Orel has rejected our offer. Shall we enforce our will?"
+ DOD_moscow.14.a: "The power of the Old Kingdoms will not be undermined"
+ DOD_moscow.14.b: "Peace is almighty"
 
-DOD_moscow.10.t: "Leningrad Refuses"
-DOD_moscow.10.desc: "Leningrad has rejected our offer. Shall we enforce our will?"
+ # LEN invitation
+ DOD_moscow.15.t: "Invitation from Moscow"
+ DOD_moscow.15.desc: "The leadership in Moscow has extended an invitation for Leningrad to join the newly forming Moscow Union. Alignment with Moscow could bring security and prosperity, but refusal may carry risks."
+ DOD_moscow.15.a: "We gladly accept the invitation."
+ DOD_moscow.15.b: "We cannot commit to Moscow's faction."
 
-DOD_moscow.10.a: "The power of the Old Kingdoms will not be undermined"
-DOD_moscow.10.b: "Peace is almighty"
-
-DOD_moscow.11.t: "Moscow Seeks Unity"
-DOD_moscow.11.desc: "The Kingdom of Moscow invites us to join their growing alliance of monarchies."
-
-DOD_moscow.11.a: "Join them"
-DOD_moscow.11.b: "Refuse"
-
-DOD_moscow.12.t: "Greater Karelia Refuses"
-DOD_moscow.12.desc: "Greater Karelia has rejected our offer. Shall we enforce our will?"
-
-DOD_moscow.12.a: "The power of the Old Kingdoms will not be undermined"
-DOD_moscow.12.b: "Peace is almighty"
+ # LEN refusal response
+ DOD_moscow.16.t: "Moscow Responds to Refusal"
+ DOD_moscow.16.desc: "Leningrad's leadership has declined the invitation to join the Moscow Union. Moscow is weighing its options: enforce compliance or respect the refusal."
+ DOD_moscow.16.a: "We will enforce compliance!"
+ DOD_moscow.16.b: "We respect their decision, for now."
+ 
+ # BLR invitation
+ DOD_moscow.17.t: "Invitation from Moscow"
+ DOD_moscow.17.desc: "Moscow has reached out to Belarus, proposing membership in the Moscow Union. Cooperation could strengthen both states, but refusal may provoke a firm response."
+ DOD_moscow.17.a: "Belarus will join the Moscow Union."
+ DOD_moscow.17.b: "Belarus must decline for now."
+ 
+ # BLR refusal response
+ DOD_moscow.18.t: "Moscow Responds to Refusal"
+ DOD_moscow.18.desc: "Belarus has rejected Moscow's invitation to the Moscow Union. Moscow now must decide whether to assert its influence forcibly or allow Belarus to remain independent."
+ DOD_moscow.18.a: "We will act to bring them into the fold!"
+ DOD_moscow.18.b: "We will not push them for now."

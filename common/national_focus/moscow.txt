@@ -54,11 +54,17 @@ focus_tree = {
 		ai_will_do = { factor = 40 }
 
 		completion_reward = {
-			set_government = neutrality
+			set_politics = { ruling_party = neutrality }
 			add_stability = 0.05        # optional, you can add stability bonus
 			add_popularity = {
 				ideology = neutrality
 				popularity = 0.10
+			}
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 1.0
+				uses = 1
+				category = industry
 			}
 		}
 	}
@@ -67,7 +73,7 @@ focus_tree = {
 		id = MOS_better_roads
 		icon = GFX_goal_generic_construct_infrastructure
 		prerequisite = { focus = MOS_reinstate_kingdom }
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = MOS_reinstate_kingdom
 		cost = 10
@@ -88,10 +94,93 @@ focus_tree = {
 	}
 
 	focus = {
+		id = MOS_better_industry
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = MOS_reinstate_kingdom }
+		x = -2
+		y = 1
+		relative_position_id = MOS_reinstate_kingdom
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
+		
+		available_if_capitulated = yes
+
+
+		
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 6
+				is_in_array = {
+					array = RAJ.raj_releasables
+					value = THIS
+				}
+				is_subject_of = RAJ
+			}
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = construction_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = industrial_complex
+						size < 1
+						include_locked = yes
+					}					
+				}
+			}
+		}
+
+		complete_tooltip = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}			
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
 		id = MOS_slow_expansion
 		icon = GFX_goal_generic_neutrality_focus
 		prerequisite = { focus = MOS_reinstate_kingdom }
-		x = 1
+		x = 2
 		y = 1
 		relative_position_id = MOS_reinstate_kingdom
 		cost = 10
@@ -109,8 +198,7 @@ focus_tree = {
 	focus = {
 		id = MOS_inward_king
 		icon = GFX_goal_generic_national_unity
-		prerequisite = { focus = MOS_slow_expansion }
-		prerequisite = { focus = MOS_better_roads }
+		prerequisite = { focus = MOS_slow_expansion focus = MOS_better_roads }
 		mutually_exclusive = { focus = MOS_outward_king }
 		x = 0
 		y = 1
@@ -130,8 +218,7 @@ focus_tree = {
 	focus = {
 		id = MOS_outward_king
 		icon = GFX_goal_generic_military_sphere
-		prerequisite = { focus = MOS_slow_expansion }
-		prerequisite = { focus = MOS_better_roads }
+		prerequisite = { focus = MOS_slow_expansion focus = MOS_better_roads focus = MOS_better_industry }
 		mutually_exclusive = { focus = MOS_inward_king }
 		x = 0
 		y = 1
@@ -150,10 +237,129 @@ focus_tree = {
 	}
 
 	focus = {
+		id = MOS_aviation_focus
+		icon = GFX_goal_generic_air_fighter
+		prerequisite = { focus = MOS_inward_king focus = MOS_army_buildup }
+		x = 1
+		y = 2
+		relative_position_id = MOS_inward_king
+		cost = 10
+
+		search_filters = {  FOCUS_FILTER_RESEARCH }
+		
+		available_if_capitulated = yes
+
+		completion_reward = {
+			air_experience = 25
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 1.0
+				uses = 2
+				category = light_fighter
+				category = cat_heavy_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_aviation_industry
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = MOS_aviation_focus }
+		x = 0
+		y = 1
+		relative_position_id = MOS_aviation_focus
+		cost = 20
+
+		search_filters = {  FOCUS_FILTER_RESEARCH }
+
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
+		
+		available_if_capitulated = yes
+
+
+		ai_will_do = {
+			factor = 2
+				modifier = {
+				factor = 6
+				original_tag = SIA
+			}
+			modifier = {
+				factor = 5
+				is_in_array = {
+					array = RAJ.raj_releasables
+					value = THIS
+				}
+				is_subject_of = RAJ
+			}	
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = production_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = arms_factory
+						size < 1
+						include_locked = yes
+					}
+				}
+			}
+		}
+
+		complete_tooltip = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = arms_factory
+				level = 1
+				instant_build = yes
+			}
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = CAS_bonus
+				bonus = 1.0
+				ahead_reduction = 2
+				uses = 1
+				category = cas_bomber
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
 		id = MOS_gift_tver
 		icon = GFX_goal_generic_positive_trade_relations
-		prerequisite = { focus = MOS_inward_king }
-		x = 0
+		prerequisite = { focus = MOS_inward_king focus = MOS_outward_king }
+		x = -1
 		y = 1
 		relative_position_id = MOS_inward_king
 		cost = 10
@@ -171,7 +377,7 @@ focus_tree = {
 		id = MOS_gift_leningrad
 		icon = GFX_goal_generic_positive_trade_relations
 		prerequisite = { focus = MOS_outward_king }
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = MOS_outward_king
 		cost = 10
@@ -182,6 +388,29 @@ focus_tree = {
 
 		completion_reward = {
 			LEN = { country_event = { id = DOD_moscow.4 } }
+		}
+	}
+
+	focus = {
+		id = MOS_kingly_visit
+		icon = GFX_focus_hun_elect_a_king
+		prerequisite = { focus = MOS_gift_leningrad }
+		x = -2
+		y = 1
+		relative_position_id = MOS_gift_leningrad
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_DIPLOMACY }
+
+		ai_will_do = { factor = 50 }
+
+		completion_reward = {
+			LEN = {
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.10
+				}
+			}
 		}
 	}
 
@@ -251,8 +480,7 @@ focus_tree = {
 	focus = {
 		id = MOS_create_old_kingdoms
 		icon = GFX_goal_generic_national_unity
-		prerequisite = { focus = MOS_royal_expansion }
-		prerequisite = { focus = MOS_force_leningrad_vote }
+		prerequisite = { focus = MOS_royal_expansion focus = MOS_force_leningrad_vote }
 		x = 0
 		y = 1
 		relative_position_id = MOS_royal_expansion
@@ -285,9 +513,6 @@ focus_tree = {
 			ELSE = {
 				set_rule = { can_create_factions = yes }
 				create_faction = MOS_OLD_KINGDOMS
-			}
-			TVE = {
-				join_faction = MOS_OLD_KINGDOMS
 			}
 		}
 	}
@@ -352,7 +577,7 @@ focus_tree = {
 		icon = GFX_goal_generic_major_alliance
 		prerequisite = { focus = MOS_invite_leningrad }
 		prerequisite = { focus = MOS_invite_tver }
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = MOS_invite_leningrad
 		cost = 10
@@ -375,12 +600,40 @@ focus_tree = {
 		}
 	}
 
+	focus = {
+		id = MOS_invite_orel
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = MOS_invite_leningrad }
+		prerequisite = { focus = MOS_invite_tver }
+		x = 2
+		y = 1
+		relative_position_id = MOS_invite_leningrad
+		cost = 10
+
+		ai_will_do = { factor = 50 }
+
+		available = {
+			ORE = { exists = yes }
+			ORE = {
+				exists = yes
+				NOT = { is_subject = yes }
+				neutrality > 0.6
+			}
+		}
+
+		completion_reward = {
+			ORE = {
+				country_event = { id = DOD_moscow.13 days = 1 }
+			}
+		}
+	}
+
 	# Communist path branch
 	focus = {
 		id = MOS_stay_communist
 		icon = GFX_goal_support_communism
 		mutually_exclusive = { focus = MOS_reinstate_kingdom }
-		x = 6
+		x = 11
 		y = 0
 		relative_position_id = MOS_reinstate_kingdom
 
@@ -410,6 +663,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			set_politics = { ruling_party = communism }
 			add_popularity = {
 				ideology = communism
 				popularity = 0.10
@@ -417,6 +671,12 @@ focus_tree = {
 			add_timed_idea = {
 				idea = internationalism
 				days = 720
+			}
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 1.0
+				uses = 1
+				category = industry
 			}
 		}
 	}
@@ -442,9 +702,10 @@ focus_tree = {
 
 	focus = {
 		id = MOS_the_moscow_army
-		icon = GFX_goal_generic_allies_build_infantry
+		icon = GFX_goal_generic_construct_mil_factory
 		prerequisite = { focus = MOS_indoctrination_focus }
-		x = 0
+		mutually_exclusive = { focus = MOS_rally }
+		x = 1
 		y = 1
 		relative_position_id = MOS_indoctrination_focus
 		cost = 10
@@ -522,10 +783,46 @@ focus_tree = {
 	}
 
 	focus = {
+		id = MOS_rally
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = MOS_indoctrination_focus }
+		mutually_exclusive = { focus = MOS_the_moscow_army }
+		x = -1
+		y = 1
+		relative_position_id = MOS_indoctrination_focus
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_XP }
+
+		available_if_capitulated = yes
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			# War mobilization bonuses
+			add_war_support = 0.10
+			add_stability = 0.01
+
+			# Army experience
+			add_army_experience = 20
+
+			# Doctrine boost (same style as your other focus)
+			add_doctrine_cost_reduction = {
+				name = rally_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
 		id = MOS_army_buildup
-		icon = GFX_goal_generic_allies_build_infantry
-		prerequisite = { focus = MOS_the_moscow_army }
-		x = 0
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = MOS_the_moscow_army focus = MOS_rally }
+		x = -1
 		y = 1
 		relative_position_id = MOS_the_moscow_army
 		cost = 10
@@ -549,7 +846,8 @@ focus_tree = {
 		id = MOS_political_commissars
 		icon = GFX_goal_generic_forceful_treaty
 		prerequisite = { focus = MOS_army_buildup }
-		x = -1
+		mutually_exclusive = { focus = MOS_the_moscow_red_army focus = MOS_peoples_state }
+		x = 0
 		y = 1
 		relative_position_id = MOS_army_buildup
 		cost = 10
@@ -559,9 +857,80 @@ focus_tree = {
 		ai_will_do = { factor = 50 }
 
 		completion_reward = {
-			add_stability = 0.05
+			add_stability = -0.02
 			add_political_power = 100
 			add_ideas = political_commissars_focus
+		}
+	}
+
+	focus = {
+		id = MOS_political_supremacism
+		icon = GFX_focus_generic_soviet_politics
+		prerequisite = { focus = MOS_political_commissars }
+		x = 0
+		y = 1
+		relative_position_id = MOS_political_commissars
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { factor = 50 }
+
+		completion_reward = {
+			add_stability = -0.05
+			add_political_power = 120
+			add_popularity = {
+				ideology = communism
+				popularity = 0.15
+			}
+			add_ideas = idea_political_correctness
+		}
+	}
+
+	focus = {
+		id = MOS_create_moscow_union
+		icon = GFX_goal_support_communism
+		prerequisite = { focus = MOS_political_supremacism focus = MOS_workers_autonomy }
+		x = 1
+		y = 1
+		relative_position_id = MOS_political_supremacism
+
+		cost = 20
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		available = {
+			is_in_faction = no
+			is_subject = no
+			LEN = { exists = yes }
+			BLR = { exists = yes }
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			IF = {
+				limit = {
+					has_dlc = "No Compromise, No Surrender"
+				}
+				set_rule = { can_create_factions = yes }
+				create_faction_from_template = faction_template_old_kingdoms
+				add_faction_initiative = 1
+			}
+			ELSE = {
+				set_rule = { can_create_factions = yes }
+				create_faction = MOS_MOSCOW_UNION
+			}
+			LEN = {
+				country_event = { id = DOD_moscow.15 days = 1 }
+			}			
+			BLR = {
+				country_event = { id = DOD_moscow.15 days = 1 }
+			}
 		}
 	}
 
@@ -569,7 +938,8 @@ focus_tree = {
 		id = MOS_the_moscow_red_army
 		icon = GFX_goal_generic_allies_build_infantry
 		prerequisite = { focus = MOS_army_buildup }
-		x = 1
+		mutually_exclusive = { focus = MOS_political_commissars focus = MOS_peoples_state }
+		x = -4
 		y = 1
 		relative_position_id = MOS_army_buildup
 
@@ -591,12 +961,121 @@ focus_tree = {
 	}
 
 	focus = {
+		id = MOS_armor_effort
+		icon = GFX_goal_generic_army_tanks
+		prerequisite = { focus = MOS_the_moscow_red_army }
+		x = 0
+		y = 1
+		relative_position_id = MOS_the_moscow_red_army
+		cost = 10
+
+		search_filters = {  FOCUS_FILTER_RESEARCH }
+		
+		available_if_capitulated = yes
+
+		completion_reward = {
+			army_experience = 50
+			add_tech_bonus = {
+				name = armor_bonus
+				bonus = 1.0
+				uses = 2
+				category = armor
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_peoples_state
+		icon = GFX_goal_support_communism
+		prerequisite = { focus = MOS_army_buildup }
+		mutually_exclusive = { focus = MOS_the_moscow_red_army focus = MOS_political_commissars }
+		x = 3
+		y = 1
+		relative_position_id = MOS_army_buildup
+
+		cost = 10
+
+		completion_reward = {
+			add_stability = 0.10
+			add_political_power = 100
+			set_cosmetic_tag = MOS_PEOPLE
+		}
+	}
+
+	focus = {
+		id = MOS_total_control
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = MOS_peoples_state }
+		mutually_exclusive = { focus = MOS_workers_autonomy }
+		x = 1
+		y = 1
+		relative_position_id = MOS_peoples_state
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { factor = 70 }
+
+		completion_reward = {
+			add_stability = 0.10
+			add_war_support = 0.05
+			add_political_power = 150
+		}
+	}
+
+	focus = {
+		id = MOS_red_terror
+		icon = GFX_goal_generic_dangerous_deal
+		prerequisite = { focus = MOS_total_control }
+		x = 0
+		y = 1
+		relative_position_id = MOS_total_control
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { factor = 80 }
+
+		completion_reward = {
+			add_stability = 0.10
+			add_war_support = 0.10
+			add_political_power = 100
+
+			add_named_threat = {
+				threat = 2
+				name = MOS_red_terror_threat
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_workers_autonomy
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = MOS_peoples_state }
+		mutually_exclusive = { focus = MOS_total_control }
+		x = -1
+		y = 1
+		relative_position_id = MOS_peoples_state
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { factor = 40 }
+
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 75
+			add_manpower = 20000
+		}
+	}
+
+	focus = {
 		id = MOS_sights_on_tver
 		icon = GFX_goal_generic_propaganda
-		prerequisite = { focus = MOS_the_moscow_army }
-		x = 4
-		y = 1
-		relative_position_id = MOS_the_moscow_army
+		prerequisite = { focus = MOS_political_commissars focus = MOS_the_moscow_red_army focus = MOS_red_terror }
+		x = 2
+		y = 3
+		relative_position_id = MOS_the_moscow_red_army
 		cost = 10
 	
 		search_filters = { FOCUS_FILTER_POLITICAL  }
@@ -710,13 +1189,140 @@ focus_tree = {
 			TVE = { country_event = { id = DOD_moscow.1 } }
 		}
 	}
+
+	focus = {
+		id = MOS_sights_on_orel
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = MOS_demand_a_referendum focus = MOS_take_tver_by_force}
+		x = 1
+		y = 1
+		relative_position_id = MOS_demand_a_referendum
+		cost = 10
+	
+		search_filters = { FOCUS_FILTER_POLITICAL  }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_threat = 1
+		}
+	}
+
+	focus = {
+		id = MOS_take_orel_by_force
+		icon = GFX_goal_generic_territory_or_war
+		prerequisite = { focus = MOS_sights_on_orel }
+		mutually_exclusive = { focus = MOS_demand_a_referendum2 }
+		x = 1
+		y = 1
+		relative_position_id = MOS_sights_on_orel
+		will_lead_to_war_with = ORE
+		cost = 10
+
+		ai_will_do = {
+			factor = 70
+			modifier = {
+				factor = 0.5
+				ORE = { is_in_faction = yes }
+			}
+		}
+
+		available = {
+			222 = {
+				OWNER = {
+					controls_state = PREV
+				}
+			}
+			is_subject = no
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			random_country = {
+				limit = {
+					owns_state = 222
+				}
+				MOS = {
+					create_wargoal = {
+						type = take_state_focus
+						target = PREV
+						expire = 0
+						generator = { 222 224 220 258 257 }
+					}
+				}
+			}
+			add_state_claim = 222
+			add_state_claim = 224
+			add_state_claim = 220
+			add_state_claim = 258
+			add_state_claim = 257
+		}
+	}
+
+	focus = {
+		id = MOS_demand_a_referendum2
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = MOS_sights_on_orel }
+		mutually_exclusive = { focus = MOS_take_orel_by_force }
+		x = -1
+		y = 1
+		relative_position_id = MOS_sights_on_orel
+
+		cost = 10
+
+		cancel_if_invalid = yes
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			NOT = { has_war_with = ORE }
+			is_subject = no
+			ORE = {				
+				exists = yes
+				is_subject = no				
+			}
+		}
+
+		bypass = {
+			OR = {
+				AND = {
+					owns_state = 220
+					owns_state = 222
+					owns_state = 224
+					owns_state = 258
+					owns_state = 257
+				}
+			}
+
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			ORE = { country_event = { id = DOD_moscow.1 } }
+		}
+	}
+
 	focus = {
 		id = MOS_industrial_effort
 		icon = GFX_goal_generic_production
-		x = 10
+		x = 9
 		y = 0
 		relative_position_id = MOS_stay_communist
-		cost = 10
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
 		
@@ -1491,10 +2097,10 @@ focus_tree = {
 	focus = {
 		id = MOS_nuclear_effort
 		icon = GFX_focus_wonderweapons
-		prerequisite = { focus = MOS_infrastructure_effort_2 }
-		x = -2
+		prerequisite = { focus = MOS_extra_tech_slot }
+		x = 2
 		y = 1
-		relative_position_id = MOS_infrastructure_effort_2
+		relative_position_id = MOS_extra_tech_slot
 		cost = 10
 		
 		search_filters = { FOCUS_FILTER_RESEARCH } 
@@ -1528,10 +2134,10 @@ focus_tree = {
 	focus = {
 		id = MOS_extra_tech_slot
 		icon = GFX_focus_research
-		prerequisite = { focus = MOS_infrastructure_effort_2 }
-		x = 0
+		prerequisite = { focus = MOS_aviation_industry focus = MOS_armor_effort }
+		x = 1
 		y = 1
-		relative_position_id = MOS_infrastructure_effort_2
+		relative_position_id = MOS_aviation_industry
 		cost = 10
 		ai_will_do = {
 			base = 2
@@ -1548,11 +2154,40 @@ focus_tree = {
 			add_research_slot = 1
 		}
 	}
+
+	focus = {
+		id = MOS_special_forces
+		icon = GFX_goal_generic_special_forces
+		prerequisite = { focus = MOS_extra_tech_slot }
+		x = 0
+		y = 1
+		relative_position_id = MOS_extra_tech_slot
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_ideas = special_forces
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 1.0
+				uses = 1
+				technology = paratroopers
+				technology = paratroopers2
+				technology = marines
+				technology = marines2
+				technology = tech_mountaineers
+				technology = tech_mountaineers2
+			}
+		}
+	}
 	
 	focus = {
 		id = MOS_extra_tech_slot_2
 		icon = GFX_focus_research
-		prerequisite = { focus = MOS_extra_tech_slot }
+		prerequisite = { focus = MOS_special_forces }
 		available = {
 			num_of_factories > 50
 		}
@@ -1560,7 +2195,7 @@ focus_tree = {
 		continue_if_invalid = yes
 		x = 0
 		y = 1
-		relative_position_id = MOS_extra_tech_slot
+		relative_position_id = MOS_special_forces
 		cost = 10
 		ai_will_do = {
 			base = 2
