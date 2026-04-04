@@ -1,0 +1,420 @@
+add_namespace = DOD_moscow
+
+country_event = {
+    id = DOD_moscow.1
+    title = DOD_moscow.1.t
+    desc = DOD_moscow.1.desc
+    picture = GFX_report_event_election_vote
+
+    is_triggered_only = yes
+
+    option = { # Yes
+        name = DOD_moscow.1.a
+        ai_chance = { factor = 70 }
+
+        MOS = {
+            country_event = { id = DOD_moscow.2 hours = 6 }
+        }
+    }
+
+    option = { # No
+        name = DOD_moscow.1.b
+        ai_chance = { factor = 30 }
+
+        MOS = {
+            country_event = { id = DOD_moscow.3 hours = 6 }
+        }
+    }
+}
+# yes
+country_event = {
+    id = DOD_moscow.2
+    title = DOD_moscow.2.t
+    desc = DOD_moscow.2.desc
+    picture = GFX_report_event_diplomacy
+
+    is_triggered_only = yes
+
+    option = {
+        name = OK
+
+        annex_country = {
+            target = TVE
+            transfer_troops = yes
+        }
+
+        add_state_core = 246
+        add_state_core = 247
+        add_state_core = 248
+    }
+}
+# no
+country_event = {
+    id = DOD_moscow.3
+    title = DOD_moscow.3.t
+    desc = DOD_moscow.3.desc
+    picture = GFX_report_event_diplomacy
+
+    is_triggered_only = yes
+
+    option = { # Go to war
+        name = DOD_moscow.3.a
+
+        create_wargoal = {
+            type = annex_everything
+            target = TVE
+        }
+    }
+
+    option = { # Back down
+        name = DOD_moscow.3.b
+
+        add_political_power = -50
+        add_stability = -0.05
+    }
+}
+# Royal Gift
+country_event = {
+    id = DOD_moscow.4
+    title = DOD_moscow.4.t
+    desc = DOD_moscow.4.desc
+    picture = GFX_report_event_generic_handshake
+
+    is_triggered_only = yes
+
+    option = { # Accept
+        name = DOD_moscow.4.a
+        ai_chance = {
+            factor = 80
+        }
+
+        MOS = {
+            add_opinion_modifier = {
+                target = ROOT
+                modifier = HUN_trade_deal_with_germany
+            }
+			add_popularity = {
+					ideology = neutrality
+					popularity = 0.10
+			}
+        }
+
+        add_opinion_modifier = {
+            target = MOS
+            modifier = HUN_trade_deal_with_germany
+        }
+
+        if = {
+            limit = {
+                MOS = { has_faction = yes }
+            }
+            join_faction = MOS
+        }
+    }
+
+    option = { # Refuse
+        name = DOD_moscow.4.b
+        ai_chance = {
+            factor = 20
+        }
+
+        MOS = {
+            add_opinion_modifier = {
+                target = ROOT
+                modifier = HUN_stubborn_fools
+            }
+			add_popularity = {
+					ideology = neutrality
+					popularity = -0.10
+			}
+        }
+    }
+	country_event = {
+		id = DOD_moscow.5
+		title = DOD_moscow.5.t
+		desc = DOD_moscow.5.desc
+		picture = GFX_report_event_election_vote
+
+		is_triggered_only = yes
+
+		option = { # YES
+			name = DOD_moscow.5.a
+			ai_chance = { factor = 50 }
+
+			set_government = neutrality
+
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.20
+			}
+
+			MOS = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = HUN_trade_deal_with_germany
+				}
+			}
+		}
+
+		option = { # NO
+			name = DOD_moscow.5.b
+			ai_chance = { factor = 50 }
+
+			MOS = {
+				country_event = { id = DOD_moscow.6 days = 1 }
+			}
+		}
+	}
+	country_event = {
+		id = DOD_moscow.6
+		title = DOD_moscow.6.t
+		desc = DOD_moscow.6.desc
+		picture = GFX_report_event_generic_war
+
+		is_triggered_only = yes
+
+		option = { # WAR
+			name = DOD_moscow.6.a
+			ai_chance = {
+				factor = 50
+
+				modifier = {
+					factor = 0.75
+					neutrality < 0.4
+				}
+
+				modifier = {
+					factor = 1.5
+					neutrality > 0.5
+				}
+			}
+
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = LEN
+			}
+		}
+
+		option = { # ACCEPT
+			name = DOD_moscow.6.b
+			ai_chance = {
+				factor = 50
+
+				modifier = {
+					factor = 1.5
+					neutrality < 0.4
+				}
+
+				modifier = {
+					factor = 0.75
+					neutrality > 0.5
+				}
+			}
+
+			add_stability = -0.05
+			add_war_support = -0.05
+
+			LEN = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = HUN_stubborn_fools
+				}
+			}
+		}
+	}
+	country_event = {
+		id = DOD_moscow.7
+		title = DOD_moscow.7.t
+		desc = DOD_moscow.7.desc
+		picture = GFX_report_event_generic_handshake
+
+		is_triggered_only = yes
+
+		option = { # JOIN
+			name = DOD_moscow.7.a
+
+			ai_chance = {
+				factor = 10
+
+				modifier = {
+					factor = 95   # ≈ 95%
+					neutrality > 0.6
+				}
+			}
+
+			MOS = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = HUN_trade_deal_with_germany
+				}
+			}
+
+			join_faction = MOS
+		}
+
+		option = { # REFUSE
+			name = DOD_moscow.7.b
+
+			MOS = {
+				country_event = { id = DOD_moscow.8 days = 1 }
+			}
+		}
+	}
+	country_event = {
+		id = DOD_moscow.8
+		title = DOD_moscow.8.t
+		desc = DOD_moscow.8.desc
+		picture = GFX_report_event_generic_war
+
+		is_triggered_only = yes
+
+		option = { # WAR
+			name = DOD_moscow.8.a
+			ai_chance = { factor = 80 }
+
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = TVE
+			}
+			add_war_support = 0.10
+			add_stability = 0.05
+		}
+
+		option = { # BACK DOWN
+			name = DOD_moscow.8.b
+			ai_chance = { factor = 20 }
+
+			add_stability = 0.05
+		}
+	}
+	country_event = {
+		id = DOD_moscow.9
+		title = DOD_moscow.9.t
+		desc = DOD_moscow.9.desc
+		picture = GFX_report_event_generic_handshake
+
+		is_triggered_only = yes
+
+		option = { # JOIN
+			name = DOD_moscow.9.a
+
+			ai_chance = {
+				factor = 10
+
+				modifier = {
+					factor = 95   # ≈ 95%
+					neutrality > 0.6
+				}
+			}
+
+			MOS = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = HUN_trade_deal_with_germany
+				}
+			}
+
+			join_faction = MOS
+		}
+
+		option = { # REFUSE
+			name = DOD_moscow.9.b
+
+			MOS = {
+				country_event = { id = DOD_moscow.10 days = 1 }
+			}
+		}
+	}
+	country_event = {
+		id = DOD_moscow.10
+		title = DOD_moscow.10.t
+		desc = DOD_moscow.10.desc
+		picture = GFX_report_event_generic_war
+
+		is_triggered_only = yes
+
+		option = { # WAR
+			name = DOD_moscow.10.a
+			ai_chance = { factor = 80 }
+
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = TVE
+			}
+			add_war_support = 0.10
+			add_stability = 0.05
+		}
+
+		option = { # BACK DOWN
+			name = DOD_moscow.10.b
+			ai_chance = { factor = 20 }
+
+			add_stability = 0.05
+		}
+	}
+	country_event = {
+		id = DOD_moscow.11
+		title = DOD_moscow.11.t
+		desc = DOD_moscow.11.desc
+		picture = GFX_report_event_generic_handshake
+
+		is_triggered_only = yes
+
+		option = { # JOIN
+			name = DOD_moscow.11.a
+
+			ai_chance = {
+				factor = 10
+
+				modifier = {
+					factor = 95   # ≈ 95%
+					neutrality > 0.6
+				}
+			}
+
+			MOS = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = HUN_trade_deal_with_germany
+				}
+			}
+
+			join_faction = MOS
+		}
+
+		option = { # REFUSE
+			name = DOD_moscow.11.b
+
+			MOS = {
+				country_event = { id = DOD_moscow.12 days = 1 }
+			}
+		}
+	}
+	country_event = {
+		id = DOD_moscow.12
+		title = DOD_moscow.12.t
+		desc = DOD_moscow.12.desc
+		picture = GFX_report_event_generic_war
+
+		is_triggered_only = yes
+
+		option = { # WAR
+			name = DOD_moscow.12.a
+			ai_chance = { factor = 80 }
+
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = TVE
+			}
+			add_war_support = 0.10
+			add_stability = 0.05
+		}
+
+		option = { # BACK DOWN
+			name = DOD_moscow.12.b
+			ai_chance = { factor = 20 }
+
+			add_stability = 0.05
+		}
+	}
+}

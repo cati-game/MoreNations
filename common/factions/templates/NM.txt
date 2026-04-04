@@ -1,0 +1,18 @@
+faction_template_old_kingdoms = {
+	name = MOS_OLD_KINGDOMS
+	manifest = faction_manifest_balkan_control
+	icon = GFX_faction_logo_generic_15
+
+	goals = {
+		
+		# Short Term 
+		# faction_goal_ensure_military_r_d
+
+		# Medium Term 
+		faction_goal_industrial_expansion
+
+		# Long term goals 
+		faction_goal_defeating_our_enemies
+
+	}
+}

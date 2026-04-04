@@ -1,0 +1,1617 @@
+search_filter_prios = {
+	FOCUS_FILTER_POLITICAL = 1010
+	
+	FOCUS_FILTER_RESEARCH = 522
+	
+	FOCUS_FILTER_INDUSTRY = 509
+
+	FOCUS_FILTER_BALANCE_OF_POWER = 200
+	FOCUS_FILTER_SOV_POLITICAL_PARANOIA = 111
+	FOCUS_FILTER_PROPAGANDA = 110
+	FOCUS_FILTER_MISSIOLINI = 110
+	FOCUS_FILTER_ARMY_XP = 103
+	FOCUS_FILTER_NAVY_XP = 102
+	FOCUS_FILTER_AIR_XP = 101
+
+}
+
+focus_tree = {
+	id = moscow_focus
+
+	country = {
+		factor = 0
+		
+		modifier = {
+			add = 10
+			tag = MOS
+		}
+	}
+
+	continuous_focus_position = { x = 50 y = 1200 }
+
+	initial_show_position = {
+		focus = MOS_reinstate_kingdom
+	}
+
+	# Non-Aligned / Kingdom branch
+	focus = {
+		id = MOS_reinstate_kingdom
+		icon = GFX_goal_generic_national_unity
+		mutually_exclusive = { focus = MOS_stay_communist }
+		x = 2
+		y = 0
+
+		cost = 10
+
+		available = {
+			is_subject = no
+			NOT = { has_war_with = TVE }
+			NOT = { has_war_with = KRL }
+			NOT = { has_war_with = LEN }
+			neutrality > 0.4
+		}
+
+		ai_will_do = { factor = 40 }
+
+		completion_reward = {
+			set_government = neutrality
+			add_stability = 0.05        # optional, you can add stability bonus
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.10
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_better_roads
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = MOS_reinstate_kingdom }
+		x = -1
+		y = 1
+		relative_position_id = MOS_reinstate_kingdom
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		ai_will_do = { factor = 2 }
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_slow_expansion
+		icon = GFX_goal_generic_neutrality_focus
+		prerequisite = { focus = MOS_reinstate_kingdom }
+		x = 1
+		y = 1
+		relative_position_id = MOS_reinstate_kingdom
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { factor = 2 }
+
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = MOS_inward_king
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = MOS_slow_expansion }
+		prerequisite = { focus = MOS_better_roads }
+		mutually_exclusive = { focus = MOS_outward_king }
+		x = 0
+		y = 1
+		relative_position_id = MOS_slow_expansion
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { factor = 50 }
+
+		completion_reward = {
+			add_stability = 0.10
+			add_political_power = 200
+		}
+	}
+
+	focus = {
+		id = MOS_outward_king
+		icon = GFX_goal_generic_military_sphere
+		prerequisite = { focus = MOS_slow_expansion }
+		prerequisite = { focus = MOS_better_roads }
+		mutually_exclusive = { focus = MOS_inward_king }
+		x = 0
+		y = 1
+		relative_position_id = MOS_better_roads
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_MILITARY }
+
+		ai_will_do = { factor = 50 }
+
+		completion_reward = {
+			add_war_support = 0.05
+			add_manpower = 15000
+			add_army_experience = 20
+		}
+	}
+
+	focus = {
+		id = MOS_gift_tver
+		icon = GFX_goal_generic_positive_trade_relations
+		prerequisite = { focus = MOS_inward_king }
+		x = 0
+		y = 1
+		relative_position_id = MOS_inward_king
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_DIPLOMACY }
+
+		ai_will_do = { factor = 50 }
+
+		completion_reward = {
+			TVE = { country_event = { id = DOD_moscow.4 } }
+		}
+	}
+
+	focus = {
+		id = MOS_gift_leningrad
+		icon = GFX_goal_generic_positive_trade_relations
+		prerequisite = { focus = MOS_outward_king }
+		x = 0
+		y = 1
+		relative_position_id = MOS_outward_king
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_DIPLOMACY }
+
+		ai_will_do = { factor = 50 }
+
+		completion_reward = {
+			LEN = { country_event = { id = DOD_moscow.4 } }
+		}
+	}
+
+	focus = {
+		id = MOS_force_leningrad_vote
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = MOS_gift_leningrad }
+		x = 0
+		y = 1
+		relative_position_id = MOS_gift_leningrad
+		cost = 10
+
+		available = {
+			LEN = {
+				exists = yes
+				NOT = { is_subject = yes }
+				neutrality > 0.4
+			}
+		}
+
+		ai_will_do = { factor = 50 }
+
+		completion_reward = {
+			LEN = {
+				country_event = { id = DOD_moscow.5 days = 1 }
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_royal_expansion
+		icon = GFX_focus_hun_elect_a_king
+		prerequisite = { focus = MOS_gift_tver }
+		x = 0
+		y = 1
+		relative_position_id = MOS_gift_tver
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MILITARY }
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		available = {
+			is_subject = no
+		}
+
+		completion_reward = {
+			# Tech boost (infantry + artillery)
+			add_tech_bonus = {
+				name = infantry_artillery_bonus
+				bonus = 1.0
+				uses = 1
+				category = infantry_weapons
+				category = artillery
+			}
+
+			# National spirit
+			add_ideas = deterrence
+
+			# Optional flavor buffs (feel free to remove if too strong)
+			add_army_experience = 10
+		}
+	}
+
+	focus = {
+		id = MOS_create_old_kingdoms
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = MOS_royal_expansion }
+		prerequisite = { focus = MOS_force_leningrad_vote }
+		x = 0
+		y = 1
+		relative_position_id = MOS_royal_expansion
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		available = {
+			is_in_faction = no
+			is_subject = no
+			TVE = { exists = yes }
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			IF = {
+				limit = {
+					has_dlc = "No Compromise, No Surrender"
+				}
+				set_rule = { can_create_factions = yes }
+				create_faction_from_template = faction_template_old_kingdoms
+				add_faction_initiative = 1
+			}
+			ELSE = {
+				set_rule = { can_create_factions = yes }
+				create_faction = MOS_OLD_KINGDOMS
+			}
+			TVE = {
+				join_faction = MOS_OLD_KINGDOMS
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_invite_tver
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = MOS_create_old_kingdoms }
+		x = 1
+		y = 1
+		relative_position_id = MOS_create_old_kingdoms
+		cost = 10
+
+		ai_will_do = { factor = 50 }
+
+		available = {
+			TVE = { exists = yes }
+			TVE = {
+				exists = yes
+				NOT = { is_subject = yes }
+				neutrality > 0.6
+			}
+		}
+
+		completion_reward = {
+			TVE = {
+				country_event = { id = DOD_moscow.7 days = 1 }
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_invite_leningrad
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = MOS_create_old_kingdoms }
+		x = -1
+		y = 1
+		relative_position_id = MOS_create_old_kingdoms
+		cost = 10
+
+		ai_will_do = { factor = 50 }
+
+		available = {
+			LEN = { exists = yes }
+			LEN = {
+				exists = yes
+				NOT = { is_subject = yes }
+				neutrality > 0.6
+			}
+
+		}
+
+		completion_reward = {
+			LEN = {
+				country_event = { id = DOD_moscow.9 days = 1 }
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_invite_karelia
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = MOS_invite_leningrad }
+		prerequisite = { focus = MOS_invite_tver }
+		x = 1
+		y = 1
+		relative_position_id = MOS_invite_leningrad
+		cost = 10
+
+		ai_will_do = { factor = 50 }
+
+		available = {
+			KRL = { exists = yes }
+			KRL = {
+				exists = yes
+				NOT = { is_subject = yes }
+				neutrality > 0.6
+			}
+		}
+
+		completion_reward = {
+			KRL = {
+				country_event = { id = DOD_moscow.11 days = 1 }
+			}
+		}
+	}
+
+	# Communist path branch
+	focus = {
+		id = MOS_stay_communist
+		icon = GFX_goal_support_communism
+		mutually_exclusive = { focus = MOS_reinstate_kingdom }
+		x = 6
+		y = 0
+		relative_position_id = MOS_reinstate_kingdom
+
+		cost = 10
+
+		available = {
+			is_subject = no
+			communism > 0.4
+		}
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 2
+				any_neighbor_country = {
+					is_major = yes
+					has_government = communism
+				}
+			}			
+			modifier = {
+				factor = 0
+				AND = {
+					is_historical_focus_on = yes
+					NOT = { has_government = communism }
+				}
+			}
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+			add_timed_idea = {
+				idea = internationalism
+				days = 720
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_indoctrination_focus
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = MOS_stay_communist }
+		x = 0
+		y = 1
+		relative_position_id = MOS_stay_communist
+		cost = 10
+	
+		search_filters = { FOCUS_FILTER_POLITICAL  }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_ideas = indoctrination_focus
+			add_political_power = 150
+		}
+	}
+
+	focus = {
+		id = MOS_the_moscow_army
+		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = MOS_indoctrination_focus }
+		x = 0
+		y = 1
+		relative_position_id = MOS_indoctrination_focus
+		cost = 10
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
+		available_if_capitulated = yes
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = production_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = arms_factory
+						size < 1
+						include_locked = yes
+					}
+				}
+			}
+		}
+
+		complete_tooltip = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = arms_factory
+				level = 1
+				instant_build = yes
+			}
+		}
+
+		completion_reward = {
+			# Military bonuses
+			army_experience = 25
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+
+			# Production bonuses (arms factory)
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_army_buildup
+		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = MOS_the_moscow_army }
+		x = 0
+		y = 1
+		relative_position_id = MOS_the_moscow_army
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_ARMY_XP FOCUS_FILTER_RESEARCH }
+
+		ai_will_do = { factor = 50 }
+
+		completion_reward = {
+			add_army_experience = 30
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_political_commissars
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = MOS_army_buildup }
+		x = -1
+		y = 1
+		relative_position_id = MOS_army_buildup
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { factor = 50 }
+
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 100
+			add_ideas = political_commissars_focus
+		}
+	}
+
+	focus = {
+		id = MOS_the_moscow_red_army
+		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = MOS_army_buildup }
+		x = 1
+		y = 1
+		relative_position_id = MOS_army_buildup
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 70
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = HUN_the_hungarian_red_army # FIX THIS SO IT DOESNT SAY HUNGARY LOL
+		}
+	}
+
+	focus = {
+		id = MOS_sights_on_tver
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = MOS_the_moscow_army }
+		x = 4
+		y = 1
+		relative_position_id = MOS_the_moscow_army
+		cost = 10
+	
+		search_filters = { FOCUS_FILTER_POLITICAL  }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_threat = 1
+		}
+	}
+
+	focus = {
+		id = MOS_take_tver_by_force
+		icon = GFX_goal_generic_territory_or_war
+		prerequisite = { focus = MOS_sights_on_tver }
+		mutually_exclusive = { focus = MOS_demand_a_referendum }
+		x = 1
+		y = 1
+		relative_position_id = MOS_sights_on_tver
+		will_lead_to_war_with = TVE
+		cost = 10
+
+		ai_will_do = {
+			factor = 70
+			modifier = {
+				factor = 0.5
+				TVE = { is_in_faction = yes }
+			}
+		}
+
+		available = {
+			247 = {
+				OWNER = {
+					controls_state = PREV
+				}
+			}
+			is_subject = no
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			random_country = {
+				limit = {
+					owns_state = 247
+				}
+				MOS = {
+					create_wargoal = {
+						type = take_state_focus
+						target = PREV
+						expire = 0
+						generator = { 246 247 248 }
+					}
+				}
+			}
+			add_state_claim = 246
+			add_state_claim = 247
+			add_state_claim = 248
+		}
+	}
+
+	focus = {
+		id = MOS_demand_a_referendum
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = MOS_sights_on_tver }
+		mutually_exclusive = { focus = MOS_take_tver_by_force }
+		x = -1
+		y = 1
+		relative_position_id = MOS_sights_on_tver
+
+		cost = 10
+
+		cancel_if_invalid = yes
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			NOT = { has_war_with = TVE }
+			is_subject = no
+			TVE = {				
+				exists = yes
+				is_subject = no				
+			}
+		}
+
+		bypass = {
+			OR = {
+				AND = {
+					owns_state = 246
+					owns_state = 247
+					owns_state = 248
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			TVE = { country_event = { id = DOD_moscow.1 } }
+		}
+	}
+	focus = {
+		id = MOS_industrial_effort
+		icon = GFX_goal_generic_production
+		x = 10
+		y = 0
+		relative_position_id = MOS_stay_communist
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+		
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 1.0
+				uses = 1
+				category = industry
+			}
+		}
+
+		ai_will_do = {
+			factor = 3
+			modifier = {
+				factor = 6
+				original_tag = SIA
+			}
+			modifier = {
+				factor = 6
+				is_in_array = {
+					array = RAJ.raj_releasables
+					value = THIS
+				}
+				is_subject_of = RAJ
+			}
+			modifier = {
+				factor = 0
+				date < 1939.1.1
+				OR = { 
+					# we dont want chinese minors to go crazy on slots early since they get eaten
+					tag = GXC 
+					tag = YUN
+					tag = SHX
+					tag = XSM
+					tag = BEL
+					tag = LUX
+					tag = HOL
+					tag = DEN
+
+					# we also dont want tiny nations to go crazy with slots right away
+					num_of_controlled_states < 2
+				}	
+				NOT = {
+					is_in_array = {
+						array = RAJ.raj_releasables
+						value = THIS
+					}
+				}			
+			}
+		}
+	}
+	focus = {
+		id = MOS_construction_effort
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = MOS_industrial_effort }
+		x = -1
+		y = 1
+		relative_position_id = MOS_industrial_effort
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
+		
+		available_if_capitulated = yes
+
+
+		
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 6
+				is_in_array = {
+					array = RAJ.raj_releasables
+					value = THIS
+				}
+				is_subject_of = RAJ
+			}
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = construction_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = industrial_complex
+						size < 1
+						include_locked = yes
+					}					
+				}
+			}
+		}
+
+		complete_tooltip = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}			
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = MOS_production_effort
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = MOS_industrial_effort }
+		x = 1
+		y = 1
+		relative_position_id = MOS_industrial_effort
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
+		
+		available_if_capitulated = yes
+
+
+		ai_will_do = {
+			factor = 2
+				modifier = {
+				factor = 6
+				original_tag = SIA
+			}
+			modifier = {
+				factor = 5
+				is_in_array = {
+					array = RAJ.raj_releasables
+					value = THIS
+				}
+				is_subject_of = RAJ
+			}	
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = production_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = arms_factory
+						size < 1
+						include_locked = yes
+					}
+				}
+			}
+		}
+
+		complete_tooltip = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = arms_factory
+				level = 1
+				instant_build = yes
+			}
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_construction_effort_2
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = MOS_construction_effort }
+		x = 0
+		y = 1
+		relative_position_id = MOS_construction_effort
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
+		
+		available_if_capitulated = yes
+
+
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 6
+				original_tag = SIA
+			}
+			modifier = {
+				factor = 5
+				is_in_array = {
+					array = RAJ.raj_releasables
+					value = THIS
+				}
+				is_subject_of = RAJ
+			}
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = construction_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = industrial_complex
+						size < 1
+						include_locked = yes
+					}
+				}
+			}
+		}
+
+		complete_tooltip = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}		
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_production_effort_2
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = MOS_production_effort }
+		x = 0
+		y = 1
+		relative_position_id = MOS_production_effort
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
+
+		available_if_capitulated = yes
+
+
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 6
+				original_tag = SIA
+			}
+			modifier = {
+				factor = 5
+				is_in_array = {
+					array = RAJ.raj_releasables
+					value = THIS
+				}
+				is_subject_of = RAJ
+			}
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = production_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = arms_factory
+						size < 1
+						include_locked = yes
+					}
+				}
+			}
+		}
+
+		complete_tooltip = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = arms_factory
+				level = 1
+				instant_build = yes
+			}
+		}		
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_infrastructure_effort
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = MOS_construction_effort_2 }
+		x = 0
+		y = 1
+		relative_position_id = MOS_construction_effort_2
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		
+		available_if_capitulated = yes
+
+		ai_will_do = {
+			base = 2
+			modifier = {
+				factor = 6
+				original_tag = SIA
+			}
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = infrastructure_effort_tt
+				all_owned_state = {			
+					free_building_slots = {
+						building = infrastructure
+						size < 1
+					}
+				}
+			}
+		}
+
+		complete_tooltip = {
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = infrastructure
+										size > 0
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 1
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = infrastructure
+										size > 1
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_production_effort_3
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = MOS_production_effort_2 }
+		x = 0
+		y = 1
+		relative_position_id = MOS_production_effort_2
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
+		
+		available_if_capitulated = yes
+
+
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 6
+				original_tag = SIA
+			}
+			modifier = {
+				factor = 5
+				is_in_array = {
+					array = RAJ.raj_releasables
+					value = THIS
+				}
+				is_subject_of = RAJ
+			}
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = production_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = arms_factory
+						size < 1
+						include_locked = yes
+					}					
+				}
+			}
+		}
+
+		complete_tooltip = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = arms_factory
+				level = 1
+				instant_build = yes
+			}
+		}		
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_infrastructure_effort_2
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = MOS_infrastructure_effort }
+		x = 0
+		y = 1
+		relative_position_id = MOS_infrastructure_effort
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		
+		available_if_capitulated = yes
+		ai_will_do = {
+			base = 2
+			modifier = {
+				factor = 6
+				original_tag = SIA
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = infrastructure_effort_tt
+				all_owned_state = {			
+					free_building_slots = {
+						building = infrastructure
+						size < 1
+					}
+				}
+			}
+		}
+
+		complete_tooltip = {
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = infrastructure
+										size > 0
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 1
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = infrastructure
+										size > 1
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_construction_effort_3
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = MOS_infrastructure_effort }
+		x = 2
+		y = 1
+		relative_position_id = MOS_infrastructure_effort
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
+		
+		available_if_capitulated = yes
+
+
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 6
+				original_tag = SIA
+			}
+			modifier = {
+				add = 5
+				is_in_array = {
+					array = RAJ.raj_releasables
+					value = THIS
+				}
+			}
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = construction_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = industrial_complex
+						size < 2
+						include_locked = yes
+					}
+				}
+			}
+		}
+
+		complete_tooltip = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+			}
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 1
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_nuclear_effort
+		icon = GFX_focus_wonderweapons
+		prerequisite = { focus = MOS_infrastructure_effort_2 }
+		x = -2
+		y = 1
+		relative_position_id = MOS_infrastructure_effort_2
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_RESEARCH } 
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+
+			add_breakthrough_progress = {
+				specialization = specialization_nuclear
+				value = 0.75
+			}
+
+			add_tech_bonus = {
+				name = nuclear_bonus
+				ahead_reduction = 1 # was 2
+				category = nuclear
+			}
+
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.25
+				always = yes
+			}
+		}
+	}
+
+	focus = {
+		id = MOS_extra_tech_slot
+		icon = GFX_focus_research
+		prerequisite = { focus = MOS_infrastructure_effort_2 }
+		x = 0
+		y = 1
+		relative_position_id = MOS_infrastructure_effort_2
+		cost = 10
+		ai_will_do = {
+			base = 2
+			modifier = {
+				factor = 6
+				original_tag = SIA
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH } 
+		
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	
+	focus = {
+		id = MOS_extra_tech_slot_2
+		icon = GFX_focus_research
+		prerequisite = { focus = MOS_extra_tech_slot }
+		available = {
+			num_of_factories > 50
+		}
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		x = 0
+		y = 1
+		relative_position_id = MOS_extra_tech_slot
+		cost = 10
+		ai_will_do = {
+			base = 2
+			modifier = {
+				factor = 6
+				original_tag = SIA
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH } 
+		
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}	
+
+	focus = {
+		id = MOS_secret_weapons
+		icon = GFX_goal_generic_secret_weapon
+		prerequisite = { focus = MOS_infrastructure_effort_2 }
+		x = 2
+		y = 1
+		relative_position_id = MOS_infrastructure_effort_2
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_RESEARCH } 
+		
+		available_if_capitulated = yes
+
+		completion_reward = {
+
+			add_ideas = generic_secret_weapons_ns
+
+			#add_tech_bonus = {
+			#	name = secret_bonus
+			#	bonus = 0.5
+			#	uses = 4
+			#	category = electronics
+			#	category = nuclear
+			#	category = rocketry
+			#}
+
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.25
+				always = yes
+			}
+		}
+	}
+}

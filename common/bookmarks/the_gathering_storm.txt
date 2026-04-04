@@ -4,9 +4,21 @@ bookmarks = {
 		desc = "GATHERING_STORM_DESC"
 		date = 1936.1.1.12
 		picture = "GFX_select_date_1936"
-		default_country = "GER"
+		default_country = "MOS"
 		default = yes
-		
+
+		"MOS" = {
+			history = "BAT_GATHERING_STORM_DESC"
+			ideology = fascism
+
+			ideas = {
+				some_idea
+			}
+
+			focuses = {
+				some_focus
+			}
+		}
 		"HUN" = {
 			history = "HUN_GATHERING_STORM_DESC"
 			ideology = fascism
@@ -31,83 +43,29 @@ bookmarks = {
 				some_focus
 			}
 		}
-		"ENG"={
-			history = "ENG_GATHERING_STORM_DESC"
-			ideology = democratic
-			available = { has_dlc = "Man the Guns" }
-			ideas = {
-				stiff_upper_lip
-				ENG_the_war_to_end_all_wars
-				george_v
-			}
-			focuses = {
-				ENG_imperial_federation
-				ENG_the_kings_party
-				ENG_organize_the_blackshirts
-			}
-		}
-		"ENG"={
-			history = "ENG_GATHERING_STORM_DESC"
-			ideology = democratic
-			available = { NOT = { has_dlc = "Man the Guns" } }
-			ideas = {
-				stiff_upper_lip
-				ENG_the_war_to_end_all_wars
-				george_v
-			}
-			focuses = {
-				tizard_mission_focus
-				ENG_war_with_germany
-				ENG_war_with_italy
-			}
-		}
-
-		GER = {
-			history = "GER_GATHERING_STORM_DESC"
+		"EGE" = {
+			history = "BAT_GATHERING_STORM_DESC"
 			ideology = fascism
-			available = { has_dlc = "Gotterdammerung" }
+
 			ideas = {
-				GER_mefo_bills_1936_fake_ns
-				GER_army_1936_fake_ns
-				GER_airforce_fake_ns
+				some_idea
 			}
+
 			focuses = {
-				GER_fuhrerprinzip
-				GER_the_peoples_victory
-				GER_glory_to_the_imperial_army
+				some_focus
 			}
 		}
-
-		GER = {
-			history = "GER_GATHERING_STORM_DESC"
+		"DEN" = {
+			history = "BAT_GATHERING_STORM_DESC"
 			ideology = fascism
-			available = { NOT = { has_dlc = "Gotterdammerung" } }
-			ideas = {
-				GER_mefo_bills_1936_fake_ns
-				GER_army_1936_fake_ns
-				GER_airforce_fake_ns
-			}
-			focuses = {
-				GER_fuhrerprinzip
-				GER_revive_the_kaiserreich
-				GER_reestablish_free_elections
-			}
-		}
 
-		"ITA"={
-			history = "ITA_GATHERING_STORM_DESC"
-			ideology = fascism
-			available = { has_dlc = "By Blood Alone" }
 			ideas = {
-				vittorio_emanuele
-				ITA_iri_fake_ns
-				ITA_re_fake_ns
-			}	
+				some_idea
+			}
+
 			focuses = {
-				ITA_comandante_diavolo
-				ITA_il_sol_dell_avvenire
-				ITA_a_colonial_empire
-			}		
+				some_focus
+			}
 		}
 		"ITA"={
 			history = "ITA_GATHERING_STORM_DESC"

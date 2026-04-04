@@ -1,0 +1,21 @@
+ideas = {
+
+	country = {
+		wuw_MOS_the_moscow_red_army = {
+			name = MOS_the_moscow_red_army
+			allowed = {
+				original_tag = MOS
+			}
+			allowed_civil_war = {
+				has_government = communism
+			}
+			picture = generic_communist_army
+
+			modifier = {
+				conscription = 0.05
+				industrial_capacity_factory = -0.05
+				production_speed_buildings_factor = -0.05
+			}
+		}
+	}
+}
