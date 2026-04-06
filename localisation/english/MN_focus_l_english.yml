@@ -92,3 +92,6 @@
  MOS_technology_sharing_desc:0 "By sharing technological advances with our allies, our whole faction will be able to conduct wartime R&D more efficiently."
  MOS_secret_weapons:0 "Secret Weapons"
  MOS_secret_weapons_desc:0 "It is tempting to expend all extra resources into developing tanks and planes, but the secret to winning wars lies in whole new fields of science; electronics, rocketry and nuclear research."
+ # PAPAL
+ PAP_future_of_the_church:0 "Future of the Church"
+ PAP_future_of_the_church_desc:0 "It is time to deside where the future of the Papal states will lead"
